@@ -23,14 +23,14 @@ public class AccountPrinciple implements UserDetails {
     }
 
     public static AccountPrinciple build(Account user) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (Role role : user.getRoles()) {
+//            authorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
 
         return new AccountPrinciple(user.getUsername(),
                 user.getPassword(),
-                authorities);
+                user.getRoles());
     }
 
     @Override
