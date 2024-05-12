@@ -2,13 +2,14 @@ package com.example.tmdt.service;
 
 import com.example.tmdt.dto.BillDetailDTO;
 import com.example.tmdt.dto.CartDetailDTO;
+import com.example.tmdt.model.buyPrd.Bill;
 import com.example.tmdt.model.buyPrd.BillDetail;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IBillDetailService extends BaseService<BillDetailDTO> {
-    void addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount);
+    List<Bill> addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount);
     List<BillDetailDTO> showBillByAccountAndStatus(Long idAccount, String status);
 
 //    void saveToBill(List<BillDetailDTO> billDetailDTOS , Long idAccount);

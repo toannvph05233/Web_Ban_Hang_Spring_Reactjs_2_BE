@@ -70,7 +70,8 @@ public class BillDetailService implements IBillDetailService {
 
 
     @Override
-    public void addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount) {
+    public List<Bill>  addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount) {
+        List<Bill> bills = new ArrayList<>();
         User user = userRepository.findUserByAccount_Id(idAccount);
         List<Long> ids = new ArrayList<>();
         ids.add(cartDetailDTOS.get(0).getProduct().getShop().getId());
@@ -85,12 +86,15 @@ public class BillDetailService implements IBillDetailService {
                 }
             }
             for (Long id : ids)  {
-                createBillDetail1(cartDetailDTOS, id, user);
+               Bill bill = createBillDetail1(cartDetailDTOS, id, user);
+               bills.add(bill);
             }
         }
+        return bills;
     }
 
-    private void createBillDetail1(List<CartDetailDTO> cartDetailDTOS, Long shopId , User user) {
+    private Bill createBillDetail1(List<CartDetailDTO> cartDetailDTOS, Long shopId , User user) {
+
         Shop shop = shopRepository.findById(shopId).get();
         Bill bill = new Bill();
         bill.setShop(shop);
@@ -100,6 +104,7 @@ public class BillDetailService implements IBillDetailService {
         bill.setWards(user.getWards());
         bill.setDate(LocalDate.now());
         bill.setStatus("Chờ xác nhận");
+        bill.setPayment("chưa thanh toán");
         bill.setAccount(cartDetailDTOS.get(0).getCart().getAccount());
         bill = billRepository.save(bill);
         User user1 = userRepository.findUserByAccount_Id(bill.getAccount().getId());
@@ -132,6 +137,7 @@ public class BillDetailService implements IBillDetailService {
                 cartDetailRepository.deleteCartDetailByProduct(product.getId());
             }
         }
+        return bill;
     }
 
 

@@ -36,7 +36,7 @@ INSERT INTO tmdt.option_product (id, name) VALUES (2, 'Bóc Sẵn');
 
 INSERT INTO tmdt.wards (id, name, district_id) VALUES (1, 'MonCity', 1);
 
-INSERT INTO tmdt.account (id, email, password, username, status) VALUES (1, 'toannvph05233@gmail.com', '$2a$10$Hm8pUUoJX6HQUzsEKzNTQ.ejaWseyfOKwe1LBxle/2j0HiEfgLjmu', 'johntoan', 'active');
+INSERT INTO tmdt.account (id, email, password, username, status) VALUES (1, 'toannvph@gmail.com', '$2a$10$Hm8pUUoJX6HQUzsEKzNTQ.ejaWseyfOKwe1LBxle/2j0HiEfgLjmu', 'johntoan', 'active');
 INSERT INTO tmdt.account (id, email, password, username, status) VALUES (2, 'admin@gmail.com', '$2a$10$Hm8pUUoJX6HQUzsEKzNTQ.ejaWseyfOKwe1LBxle/2j0HiEfgLjmu', 'admin', 'active');
 
 INSERT INTO tmdt.account_roles (account_id, roles_id) VALUES (1, 3);

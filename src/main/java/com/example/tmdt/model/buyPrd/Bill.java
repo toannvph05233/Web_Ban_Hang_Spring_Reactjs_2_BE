@@ -29,4 +29,6 @@ public class Bill {
     private Shop shop;
     @Column(columnDefinition = "varchar(255) default '0'")
     private String status;
+    @Column(columnDefinition = "varchar(255) default 'chưa thanh toán'")
+    private String payment;
 }

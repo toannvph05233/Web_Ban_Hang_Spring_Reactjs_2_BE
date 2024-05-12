@@ -155,6 +155,7 @@ public class BillService implements IBillService {
         if (billOptional.isPresent()) {
             Bill bill = billOptional.get();
             bill.setStatus("Đã giao");
+            bill.setPayment("đã thanh toán");
             bill.setDate(LocalDate.now());
             billRepository.save(bill);
             Notification notification = new Notification() ;

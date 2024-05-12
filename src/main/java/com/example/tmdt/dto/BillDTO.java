@@ -23,5 +23,6 @@ public class BillDTO {
     private LocalDate date;
     private Shop shop;
     private String status ;
+    private String payment ;
     private String reason;
 }

@@ -3,6 +3,7 @@ package com.example.tmdt.controller;
 
 import com.example.tmdt.dto.BillDTO;
 import com.example.tmdt.dto.CartDetailDTO;
+import com.example.tmdt.model.buyPrd.Bill;
 import com.example.tmdt.model.buyPrd.BillDetail;
 import com.example.tmdt.dto.BillDetailDTO;
 import com.example.tmdt.service.IBillDetailService;
@@ -45,8 +46,8 @@ public class BillController {
     @PostMapping("/save/bill")
     ResponseEntity<?> saveToBill(@RequestBody List<CartDetailDTO> cartDetailDTOS,
             @Param("idAccount") Long idAccount) {
-        billDetailService.addToBill(cartDetailDTOS, idAccount);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        List<Bill> bills = billDetailService.addToBill(cartDetailDTOS, idAccount);
+        return ResponseEntity.ok(bills);
     }
     @PostMapping("/accept")
     public ResponseEntity<?> accept (@RequestBody List<BillDetail> billDetails) {
