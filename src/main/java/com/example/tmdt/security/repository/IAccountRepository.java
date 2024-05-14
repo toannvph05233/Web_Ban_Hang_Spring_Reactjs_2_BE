@@ -4,6 +4,7 @@ import com.example.tmdt.security.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +17,8 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String username);
 
     @Query(value = "select a.* from Account a join account_roles a_r on a.id = a_r.account_id " +
-            "join role on role.id = a_r.roles_id where role.name = 'ROLE_USER'", nativeQuery = true)
-    List<Account> findAllByRolesUser();
+            "join role on role.id = a_r.roles_id where role.name = :role", nativeQuery = true)
+    List<Account> findAllByRolesUser(@Param("role") String role);
 
     Optional<Account> findByEmail(String email);
 

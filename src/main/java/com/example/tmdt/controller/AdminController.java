@@ -18,7 +18,12 @@ public class AdminController {
 
     @GetMapping
     public List<Account> getAll(){
-        return accountRepository.findAllByRolesUser();
+        return accountRepository.findAllByRolesUser("ROLE_USER");
+
+    }
+    @GetMapping("/manager")
+    public List<Account> getAllShop(){
+        return accountRepository.findAllByRolesUser("ROLE_SHOP");
 
     }
     @PostMapping("/{accountId}")

@@ -1,7 +1,6 @@
-package com.example.tmdt.controller;
+package com.example.tmdt.payment.paypal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -11,11 +10,7 @@ import java.net.URLEncoder;
 
 import com.example.tmdt.model.buyPrd.Bill;
 import com.example.tmdt.payment.PaymentDTO;
-import com.example.tmdt.payment.PaypalPaymentIntent;
-import com.example.tmdt.payment.PaypalPaymentMethod;
-import com.example.tmdt.payment.PaypalService;
 import com.example.tmdt.repository.BillRepository;
-import com.example.tmdt.service.IBillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
-import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.example.tmdt.payment;
+package com.example.tmdt.payment.paypal;
 
 import javax.servlet.http.HttpServletRequest;
 

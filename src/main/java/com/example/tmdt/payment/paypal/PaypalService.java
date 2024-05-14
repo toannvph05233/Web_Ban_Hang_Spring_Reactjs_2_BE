@@ -1,11 +1,9 @@
-package com.example.tmdt.payment;
+package com.example.tmdt.payment.paypal;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.tmdt.payment.PaypalPaymentIntent;
-import com.example.tmdt.payment.PaypalPaymentMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.paypal.api.payments.Amount;

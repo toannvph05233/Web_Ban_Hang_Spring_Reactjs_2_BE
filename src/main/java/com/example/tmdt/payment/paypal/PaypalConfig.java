@@ -1,4 +1,4 @@
-package com.example.tmdt.payment;
+package com.example.tmdt.payment.paypal;
 
 import java.util.HashMap;
 import java.util.Map;
