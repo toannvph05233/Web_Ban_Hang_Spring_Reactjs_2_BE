@@ -20,6 +20,7 @@ public class Product {
     @Column(nullable = false)
     @Min(value = 0)
     private Integer quantity;
+    @Column(length = 999999999)
     private String description;
     @Column(nullable = false)
     @Min(value = 1)
