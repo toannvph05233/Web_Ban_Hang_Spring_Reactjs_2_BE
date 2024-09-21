@@ -57,7 +57,7 @@ public class PaymentVnPayController {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = (long) (Math.round(paymentDTO.getTotal() * 1000.0) / 100.0);
+        long amount = (long) (Math.round(paymentDTO.getTotal() * 100.0));
         String bankCode = "NCB";
 
         String vnp_TxnRef = Config.getRandomNumber(8);
