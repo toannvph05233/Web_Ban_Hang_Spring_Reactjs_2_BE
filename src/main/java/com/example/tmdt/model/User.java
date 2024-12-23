@@ -11,11 +11,12 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "User")
+@Table(name = "[User]")
 @EqualsAndHashCode(callSuper = false)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "dbo.user_id_seq", allocationSize = 1)
     private Long id ;
 
     private String name ;

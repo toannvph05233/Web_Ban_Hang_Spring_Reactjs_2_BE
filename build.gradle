@@ -32,6 +32,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '12.4.2.jre11'
+
 
 	//jwt
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api

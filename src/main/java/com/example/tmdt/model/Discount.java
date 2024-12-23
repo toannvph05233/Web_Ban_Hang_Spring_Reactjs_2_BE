@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Discount  {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double code;
 }

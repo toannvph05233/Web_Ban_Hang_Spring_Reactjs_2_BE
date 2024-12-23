@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 public class CartDetail  {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Min(value = 1)
     private Double quantity ;

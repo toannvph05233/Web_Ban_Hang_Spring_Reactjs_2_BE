@@ -9,9 +9,11 @@ import javax.persistence.*;
 @Table(name = "Image")
 @EqualsAndHashCode(callSuper = false)
 public class Image {
-    @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_generator")
+    @SequenceGenerator(name = "image_generator", sequenceName = "dbo.image_id_seq", allocationSize = 1)
+
     private Long id;
     private String name;
 }

@@ -11,9 +11,11 @@ import java.util.List;
 @Table(name = "Product")
 @EqualsAndHashCode(callSuper = false)
 public class Product {
-    @Id
+
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
+    @SequenceGenerator(name = "product_generator", sequenceName = "dbo.product_id_seq", allocationSize = 1)
     private Long id;
     @Column(nullable = false)
     private String name;

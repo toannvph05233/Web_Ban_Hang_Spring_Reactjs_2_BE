@@ -7,7 +7,8 @@ import java.util.Set;
     @Entity
     public class Account {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_generator")
+        @SequenceGenerator(name = "account_generator", sequenceName = "dbo.account_id_seq", allocationSize = 1)
         private Long id;
         private String username;
         private String password;
