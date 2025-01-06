@@ -13,22 +13,27 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String name;
     @ManyToOne
     private Account account ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String address;
     @ManyToOne
     private Wards wards;
+    @Column(columnDefinition = "nvarchar(255)")
     private String phone;
+    @Column(columnDefinition = "nvarchar(255)")
     private String total;
     private LocalDate date ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String reason;
     @ManyToOne
     private Shop shop;
-    @Column(columnDefinition = "varchar(255) default '0'")
+    @Column(columnDefinition = "nvarchar(255) default '0'")
     private String status;
-    @Column(columnDefinition = "varchar(255) default 'chưa thanh toán'")
+    @Column(columnDefinition = "nvarchar(255) default 'chưa thanh toán'")
     private String payment;
 }

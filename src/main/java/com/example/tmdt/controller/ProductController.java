@@ -1,11 +1,14 @@
 package com.example.tmdt.controller;
+import com.example.tmdt.dto.CommentDTO;
 import com.example.tmdt.dto.ImageDTO;
 import com.example.tmdt.dto.ProductDTO;
+import com.example.tmdt.model.Comment;
 import com.example.tmdt.model.Product;
 import com.example.tmdt.repository.ProductRepository;
 import com.example.tmdt.service.IImageService;
 import com.example.tmdt.repository.ProductRepository;
 import com.example.tmdt.service.IProductService;
+import com.example.tmdt.service.impl.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,8 @@ public class ProductController {
     private IImageService imageService;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    CommentService commentService;
 
     @GetMapping
     ResponseEntity<Iterable<ProductDTO>> findAll() {
@@ -32,7 +37,12 @@ public class ProductController {
     }
     @GetMapping("/status")
     ResponseEntity<Iterable<ProductDTO>> findAllStatus() {
-        return new ResponseEntity<>(productService.findAllStatus(), HttpStatus.OK);
+        Iterable<ProductDTO> productDTOS = productService.findAllStatus();
+        for (ProductDTO p:productDTOS) {
+            List<CommentDTO> comments = commentService.findByIdProduct(p.getId());
+            p.setComment(comments);
+        }
+        return new ResponseEntity<>(productDTOS, HttpStatus.OK);
     }
     @GetMapping("/count/{id}")
     ResponseEntity<List<ProductDTO>> findByCount(@PathVariable Long id) {
@@ -77,6 +87,8 @@ public class ProductController {
       List<ProductDTO> productDTOList = new ArrayList<>();
         for (ProductDTO p: list) {
             if (p.getStatus() == null) {
+                List<CommentDTO> comments = commentService.findByIdProduct(p.getId());
+                p.setComment(comments);
                 productDTOList.add(p);
             }
         }
@@ -89,6 +101,8 @@ public class ProductController {
         for (ProductDTO p: list
         ) {
             if (p.getStatus() == null) {
+                List<CommentDTO> comments = commentService.findByIdProduct(p.getId());
+                p.setComment(comments);
                 productDTOList.add(p);
             }
         }
@@ -98,9 +112,10 @@ public class ProductController {
     ResponseEntity<List<ProductDTO>> findByCategory(@PathVariable Long id) {
         List<ProductDTO> list = productService.findByCategory(id);
         List<ProductDTO> productDTOList = new ArrayList<>();
-        for (ProductDTO p: list
-        ) {
+        for (ProductDTO p: list) {
             if (p.getStatus() == null) {
+                List<CommentDTO> comments = commentService.findByIdProduct(p.getId());
+                p.setComment(comments);
                 productDTOList.add(p);
             }
         }

@@ -1,5 +1,6 @@
 package com.example.tmdt.security.repository;
 
+import com.example.tmdt.repository.query.DateDiscount;
 import com.example.tmdt.security.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,6 +16,9 @@ import java.util.Optional;
 @Transactional
 public interface IAccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String username);
+
+    @Query(value = "select date from Account a where a.id=?", nativeQuery = true)
+    DateDiscount findDateByAccount(Long id);
 
     @Query(value = "select a.* from Account a join account_roles a_r on a.id = a_r.account_id " +
             "join role on role.id = a_r.roles_id where role.name = :role", nativeQuery = true)

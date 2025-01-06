@@ -15,16 +15,20 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = false)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "dbo.user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
-
+    @Column(columnDefinition = "nvarchar(255)")
     private String name ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String avatar ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String gender ;
     private LocalDate age ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String phone ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String email ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String address;
     @ManyToOne
     private Wards wards;

@@ -45,8 +45,15 @@ public class BillController {
     }
     @PostMapping("/save/bill")
     ResponseEntity<?> saveToBill(@RequestBody List<CartDetailDTO> cartDetailDTOS,
-            @Param("idAccount") Long idAccount) {
-        List<Bill> bills = billDetailService.addToBill(cartDetailDTOS, idAccount);
+            @Param("idAccount") Long idAccount, @Param("discount") Long discount) {
+        List<Bill> bills = billDetailService.addToBill(cartDetailDTOS, idAccount, discount);
+        return ResponseEntity.ok(bills);
+    }
+
+    @PostMapping("/save/billOffline")
+    ResponseEntity<?> saveToBillOffline(@RequestBody List<CartDetailDTO> cartDetailDTOS,
+                                 @Param("email") String email) {
+        List<Bill> bills = billDetailService.addToBillOffline(cartDetailDTOS, email);
         return ResponseEntity.ok(bills);
     }
     @PostMapping("/accept")

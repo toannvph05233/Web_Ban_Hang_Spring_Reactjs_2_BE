@@ -91,7 +91,7 @@ public class  CartDetailService implements ICartDetailService {
             cartRepository.save(cart);
         }
         Optional<CartDetail> cartDetailOptional = cartDetailRepository.findCartDetailByCartAndProduct(
-                cart.getId(), cartDetailDTO.getProduct().getId());
+                cart.getId(), cartDetailDTO.getProductDetail().getId());
         CartDetail cartDetail;
         if (cartDetailOptional.isPresent()) {
             cartDetail = cartDetailOptional.get();
@@ -99,8 +99,8 @@ public class  CartDetailService implements ICartDetailService {
         } else {
             cartDetail = new CartDetail();
             cartDetail.setQuantity(cartDetailDTO.getQuantity());
-            Product product = productMapper.toEntity(cartDetailDTO.getProduct());
-            cartDetail.setProduct(product);
+//            Product product = productMapper.toEntity(cartDetailDTO.getProduct());
+            cartDetail.setProductDetail(cartDetailDTO.getProductDetail());
             cartDetail.setCart(cart);
         }
         cartDetailRepository.save(cartDetail);
@@ -121,7 +121,7 @@ public class  CartDetailService implements ICartDetailService {
 
     @Override
     public List<CartDetailDTO> displayAllOrder(Long idShop) {
-        List <CartDetail> cartDetail =  cartDetailRepository.findAllByProduct_Shop_Id(shopRepository.findShopByIdAccount(idShop).getId());
+        List <CartDetail> cartDetail =  cartDetailRepository.findAllByProductDetail_Product_Shop_Id(shopRepository.findShopByIdAccount(idShop).getId());
         List <CartDetail > dto = new ArrayList<>() ;
         for (CartDetail cart :
                 cartDetail

@@ -11,10 +11,10 @@ import javax.persistence.*;
 public class Image {
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_generator")
-    @SequenceGenerator(name = "image_generator", sequenceName = "dbo.image_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String name;
 }
 

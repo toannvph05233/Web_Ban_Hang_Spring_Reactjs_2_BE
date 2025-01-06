@@ -11,9 +11,11 @@ import javax.persistence.*;
 public class Cart{
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String confirm;
+    @Column(columnDefinition = "nvarchar(255)")
     private String reason;
     @ManyToOne
     private Account account ;

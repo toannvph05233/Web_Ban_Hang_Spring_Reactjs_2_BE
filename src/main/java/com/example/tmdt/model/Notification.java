@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String title ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String content ;
     private LocalDateTime createAt;
     private Long status ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String avatar ;
     @ManyToOne
     private Account account ;

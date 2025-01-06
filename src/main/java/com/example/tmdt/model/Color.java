@@ -13,9 +13,8 @@ import javax.persistence.*;
 public class Color {
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "color_generator")
-    @SequenceGenerator(name = "color_generator", sequenceName = "dbo.color_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "nvarchar(255)")
     private String name;
 }

@@ -1,5 +1,6 @@
 package com.example.tmdt.model.buyPrd;
 import com.example.tmdt.model.Product;
+import com.example.tmdt.model.ProductDetail;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import javax.persistence.*;
@@ -10,13 +11,13 @@ import javax.persistence.*;
 public class BillDetail {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double quantity ;
     private Double price ;
     private Double total ;
     @ManyToOne
-    private Product product ;
-    @ManyToOne
     private Bill bill ;
+    @ManyToOne
+    private ProductDetail productDetail ;
 }

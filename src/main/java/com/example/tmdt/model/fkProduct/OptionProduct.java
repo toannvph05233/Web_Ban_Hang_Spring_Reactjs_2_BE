@@ -11,7 +11,8 @@ import javax.persistence.*;
 public class OptionProduct  {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String name;
 }

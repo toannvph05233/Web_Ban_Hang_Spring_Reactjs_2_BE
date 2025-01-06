@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Account fromUser;
     @ManyToOne
     private Account toUser;
+    @Column(columnDefinition = "nvarchar(255)")
     private String content;
     private LocalDateTime time;
 

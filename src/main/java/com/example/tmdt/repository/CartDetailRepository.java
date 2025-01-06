@@ -15,9 +15,9 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
-    @Query(value = "SELECT * FROM cart_detail WHERE cart_id = :idCart AND product_id = :idProduct", nativeQuery = true)
+    @Query(value = "SELECT * FROM cart_detail WHERE cart_id = :idCart AND product_detail_id = :product_detail_id", nativeQuery = true)
     Optional<CartDetail> findCartDetailByCartAndProduct(@Param("idCart") Long idCart,
-                                                       @Param("idProduct") Long idProduct);
+                                                       @Param("product_detail_id") Long product_detail_id);
 
     @Query(value = "SELECT * FROM cart_detail cd JOIN cart c ON cd.cart_id = c.id WHERE c.account_id = :idAccount", nativeQuery = true)
     List<CartDetail> showCart(@Param("idAccount") Long idAccount);
@@ -26,11 +26,12 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
 //    Optional<Cart> findCartByIdAccount(@Param("idAccount") Long idAccount);
 
     @Query(value = "select * from cart_detail\n" +
-            "inner join product on cart_detail.product_id = product.id\n" +
+            "inner join product_detail on cart_detail.product_detail_id = product_detail.id\n " +
+            "inner join product on product.id = product_detail.id\n " +
             "inner join cart on cart_detail.cart_id = cart.id where product.shop_id = :idShop and cart.confirm = :confirm ;\n" +
             ";", nativeQuery = true)
     List<CartDetail> displayCartOfShop(@Param("idShop") Long idShop ,@Param("confirm") String confirm);
-    List<CartDetail> findAllByProduct_Shop_Id(Long idShop);
+    List<CartDetail> findAllByProductDetail_Product_Shop_Id(Long idShop);
 
 
     @Modifying
@@ -40,17 +41,17 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
     @Query(value = "DELETE FROM cart_detail WHERE cart_id = :idCart", nativeQuery = true)
     void deleteCart(@Param("idCart") Long idCart);
     @Modifying
-    @Query(value = "UPDATE cart_detail SET quantity = :quantity WHERE product_id = :idProduct AND cart_id = :idCart", nativeQuery = true)
+    @Query(value = "UPDATE cart_detail SET quantity = :quantity WHERE product_detail_id = :product_detail_id AND cart_id = :idCart", nativeQuery = true)
     void updateQuantityFromCart(@Param("quantity") Double quantity,
-                                @Param("idProduct") Long idProduct,
+                                @Param("product_detail_id") Long product_detail_id,
                                 @Param("idCart") Long idCart);
 
     @Modifying
-    @Query(value = "DELETE FROM cart_detail WHERE product_id = :idProduct", nativeQuery = true)
-    void deleteCartDetailByProduct(@Param("idProduct") Long idProduct);
+    @Query(value = "DELETE FROM cart_detail WHERE product_detail_id = :product_detail_id", nativeQuery = true)
+    void deleteCartDetailByProduct(@Param("product_detail_id") Long product_detail_id);
 
-    @Query(value = "SELECT TOP 1 * FROM cart_detail cd JOIN cart c ON cd.cart_id = c.id WHERE cd.product_id = :idProduct AND c.account_id = :idAccount ORDER BY cd.id DESC", nativeQuery = true)
-    Optional<CartDetail> findCartDetailByProduct(@Param("idProduct") Long idProduct, @Param("idAccount") Long idAccount);
+    @Query(value = "SELECT TOP 1 * FROM cart_detail cd JOIN cart c ON cd.cart_id = c.id WHERE cd.product_detail_id = :product_detail_id AND c.account_id = :idAccount ORDER BY cd.id DESC", nativeQuery = true)
+    Optional<CartDetail> findCartDetailByProduct(@Param("product_detail_id") Long product_detail_id, @Param("idAccount") Long idAccount);
 
 
 

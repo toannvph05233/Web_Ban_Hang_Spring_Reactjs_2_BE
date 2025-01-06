@@ -11,14 +11,17 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByAccount_Id(Long id);
+    @Query(value = "select * from product where product.shop_id = ? and product.quantity>0",nativeQuery = true)
     List<Product> findAllByShop_Id (Long id);
     @Query(value = "SELECT * FROM product  " +
-            "WHERE product.status IS NULL ",nativeQuery = true)
+            "WHERE product.status IS NULL and product.quantity>0",nativeQuery = true)
     List<Product> findAllStatus();
-    List<Product> findAllByNameContainingAndStatusIsNull (String name);
-    @Query(value = "select * from product where product.shop_id = ? and product.status is null order by product.count desc limit 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM product  " +
+            "WHERE product.status IS NULL and product.quantity>0 and product.name like concat('%',:name,'%')",nativeQuery = true)
+    List<Product> findAllByNameContainingAndStatusIsNull (@Param("name") String name);
+    @Query(value = "select top 5 * from product where product.shop_id = ? and product.status is null and product.quantity>0 order by product.count desc", nativeQuery = true)
     List<Product> findByCount(Long id);
-    @Query(value = "select * from product where product.category_id = ?",nativeQuery = true)
+    @Query(value = "select * from product where product.category_id = ? and product.quantity>0",nativeQuery = true)
     List<Product> findByCategory(Long id);
 
 }

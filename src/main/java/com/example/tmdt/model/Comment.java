@@ -14,11 +14,14 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String content;
+    @Column(columnDefinition = "nvarchar(255)")
     private String status;
     private LocalDateTime createAt;
+    @Column(columnDefinition = "nvarchar(255)")
     private String reply;
     @ManyToOne
     private Product product;

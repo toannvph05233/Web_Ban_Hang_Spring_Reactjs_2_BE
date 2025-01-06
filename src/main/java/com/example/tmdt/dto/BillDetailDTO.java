@@ -1,6 +1,7 @@
 package com.example.tmdt.dto;
 
 
+import com.example.tmdt.model.ProductDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,6 @@ public class BillDetailDTO {
     private Double quantity ;
     private Double price ;
     private Double total ;
-    private ProductDTO product ;
+    private ProductDetail productDetail ;
     private BillDTO bill;
 }

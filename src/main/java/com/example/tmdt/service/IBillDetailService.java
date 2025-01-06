@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IBillDetailService extends BaseService<BillDetailDTO> {
-    List<Bill> addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount);
+    List<Bill> addToBill(List<CartDetailDTO> cartDetailDTOS, Long idAccount, Long discount);
+    List<Bill> addToBillOffline(List<CartDetailDTO> cartDetailDTOS, String email);
     List<BillDetailDTO> showBillByAccountAndStatus(Long idAccount, String status);
 
 //    void saveToBill(List<BillDetailDTO> billDetailDTOS , Long idAccount);

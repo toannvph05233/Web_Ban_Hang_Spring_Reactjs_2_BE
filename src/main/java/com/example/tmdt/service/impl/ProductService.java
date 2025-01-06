@@ -3,6 +3,8 @@ package com.example.tmdt.service.impl;
 import com.example.tmdt.dto.ProductDTO;
 import com.example.tmdt.mapper.ProductMapper;
 import com.example.tmdt.model.Product;
+import com.example.tmdt.model.ProductDetail;
+import com.example.tmdt.repository.IProductDetailRepo;
 import com.example.tmdt.repository.ProductRepository;
 import com.example.tmdt.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class ProductService implements IProductService {
     private ProductRepository productRepository;
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private IProductDetailRepo iProductDetailRepo;
 
     @Override
     public void save(ProductDTO dto) {
@@ -38,9 +43,12 @@ public class ProductService implements IProductService {
     @Override
     public ProductDTO findOne(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
+        List<ProductDetail> productDetails = iProductDetailRepo.findAllByProductId(id);
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
-            return productMapper.toDto(product);
+            ProductDTO productDTO = productMapper.toDto(product);
+            productDTO.setProductDetails(productDetails);
+            return productDTO;
         }
         return null;
     }

@@ -13,9 +13,8 @@ import javax.validation.constraints.Min;
 public class Size {
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "size_generator")
-    @SequenceGenerator(name = "size_generator", sequenceName = "dbo.size_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "nvarchar(255)")
     private String name;
 }

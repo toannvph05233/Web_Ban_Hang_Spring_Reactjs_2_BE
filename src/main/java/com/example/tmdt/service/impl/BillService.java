@@ -4,6 +4,7 @@ import com.example.tmdt.dto.BillDTO;
 import com.example.tmdt.mapper.BillMapper;
 import com.example.tmdt.model.Notification;
 import com.example.tmdt.model.Product;
+import com.example.tmdt.model.ProductDetail;
 import com.example.tmdt.model.buyPrd.Bill;
 import com.example.tmdt.model.buyPrd.BillDetail;
 import com.example.tmdt.model.fkProduct.Shop;
@@ -25,15 +26,19 @@ public class BillService implements IBillService {
     private BillMapper billMapper;
 
     @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
     private ShopRepository shopRepository;
     @Autowired
-    private ProductRepository  productRepository ;
+    private IProductDetailRepo iProductDetailRepo;
     @Autowired
-    private BillDetailRepository billDetailRepository ;
+    private BillDetailRepository billDetailRepository;
     @Autowired
-    private NotificationRepository notificationRepository ;
+    private NotificationRepository notificationRepository;
     @Autowired
-    private UserRepository userRepository ;
+    private UserRepository userRepository;
+
     @Override
     public void save(BillDTO dto) {
         Bill bill = billMapper.toEntity(dto);
@@ -70,42 +75,29 @@ public class BillService implements IBillService {
 
     @Override
     public Integer accept(List<BillDetail> billDetails) {
-        for (BillDetail id:
-                billDetails ) {
-            Product product = id.getProduct();
-            if(product.getQuantity() - id.getQuantity() < 0){
-                return 0;
-            }
-        }
         Bill dto = billRepository.findById(billDetails.get(0).getBill().getId()).get();
         dto.setStatus("Đang giao");
         billRepository.save(dto);
-        Notification notification = new Notification() ;
+        Notification notification = new Notification();
         notification.setBill(dto);
         notification.setTitle("Thông báo user");
         notification.setContent("Đơn hàng được xác nhận");
         notification.setAvatar(dto.getShop().getAvatar());
         notification.setCreateAt(LocalDateTime.now());
-        notification.setShop(billDetails.get(0).getProduct().getShop());
+        notification.setShop(billDetails.get(0).getProductDetail().getProduct().getShop());
         notification.setAccount(dto.getAccount());
-        notificationRepository.save(notification) ;
+        notificationRepository.save(notification);
 
-        for (BillDetail id:
-             billDetails ) {
-           Product product = id.getProduct();
-           product.setQuantity((int) (product.getQuantity() - id.getQuantity()));
-           productRepository.save(product);
-        }
-        return 1 ;
+        return 1;
     }
 
     @Override
-    public void rejection(List<BillDetail> billDetails , String reason) {
+    public void rejection(List<BillDetail> billDetails, String reason) {
         Bill dto = billRepository.findById(billDetails.get(0).getBill().getId()).get();
         dto.setStatus("Đơn hủy");
         dto.setReason(reason);
         billRepository.save(dto);
-        Notification notification = new Notification() ;
+        Notification notification = new Notification();
         notification.setBill(dto);
         notification.setTitle("Thông báo user");
         notification.setContent("Đơn hàng bị từ chối");
@@ -113,40 +105,51 @@ public class BillService implements IBillService {
         notification.setCreateAt(LocalDateTime.now());
         notification.setShop(dto.getShop());
         notification.setAccount(dto.getAccount());
-        notificationRepository.save(notification) ;
-        for (BillDetail id:
-                billDetails ) {
-            Product product = id.getProduct();
-            product.setQuantity((int) (product.getQuantity() + id.getQuantity()));
+        notificationRepository.save(notification);
+
+        for (BillDetail id : billDetails) {
+            ProductDetail productDetail = id.getProductDetail();
+            productDetail.setQuantity((int) (productDetail.getQuantity() + id.getQuantity()));
+            iProductDetailRepo.save(productDetail);
+            Product product = productRepository.findById(productDetail.getProduct().getId()).get();
+            product.setQuantity((int) (product.getQuantity()+ id.getQuantity()));
+            product.setCount(product.getCount() - 1);
             productRepository.save(product);
         }
+
     }
 
     @Override
     public void cancelBillByReason(Long idBill, String reason) {
-       Optional<Bill> billOptional = billRepository.findById(idBill);
-       if (billOptional.isPresent()) {
-           Bill bill = billOptional.get();
-           bill.setStatus("Đơn bị hủy");
-           bill.setDate(LocalDate.now());
-           bill.setReason(reason);
-           billRepository.save(bill);
-           Notification notification = new Notification() ;
-           notification.setBill(bill);
-           notification.setTitle("Thông báo shop");
-           notification.setContent("Đơn hàng bị hủy");
-           notification.setAvatar(userRepository.findUserByAccount_Id(bill.getAccount().getId()).getAvatar());
-           notification.setCreateAt(LocalDateTime.now());
-           notification.setShop(bill.getShop());
-           notification.setAccount(bill.getAccount());
-           notificationRepository.save(notification) ;
-           List<BillDetail> billDetails = billDetailRepository.listBillDetailByBill(idBill);
-           for (BillDetail billDetail : billDetails) {
-               billDetail.getProduct().setQuantity((int) (billDetail.getProduct().getQuantity() + billDetail.getQuantity()));
-               productRepository.save(billDetail.getProduct());
-           }
+        Optional<Bill> billOptional = billRepository.findById(idBill);
+        if (billOptional.isPresent()) {
+            Bill bill = billOptional.get();
+            bill.setStatus("Đơn bị hủy");
+            bill.setDate(LocalDate.now());
+            bill.setReason(reason);
+            billRepository.save(bill);
+            Notification notification = new Notification();
+            notification.setBill(bill);
+            notification.setTitle("Thông báo shop");
+            notification.setContent("Đơn hàng bị hủy");
+            notification.setAvatar(userRepository.findUserByAccount_Id(bill.getAccount().getId()).getAvatar());
+            notification.setCreateAt(LocalDateTime.now());
+            notification.setShop(bill.getShop());
+            notification.setAccount(bill.getAccount());
+            notificationRepository.save(notification);
+            List<BillDetail> billDetails = billDetailRepository.listBillDetailByBill(idBill);
+            for (BillDetail id : billDetails) {
+                ProductDetail productDetail = id.getProductDetail();
+                productDetail.setQuantity((int) (productDetail.getQuantity() + id.getQuantity()));
+                iProductDetailRepo.save(productDetail);
+                Product product = productRepository.findById(productDetail.getProduct().getId()).get();
+                product.setQuantity((int) (product.getQuantity()+ id.getQuantity()));
+                product.setCount(product.getCount() - 1);
+                productRepository.save(product);
+            }
 
-       }
+
+        }
     }
 
     @Override
@@ -158,7 +161,7 @@ public class BillService implements IBillService {
             bill.setPayment("đã thanh toán");
             bill.setDate(LocalDate.now());
             billRepository.save(bill);
-            Notification notification = new Notification() ;
+            Notification notification = new Notification();
             notification.setBill(bill);
             notification.setTitle("Thông báo shop");
             notification.setContent("Đơn hàng đã được giao");
@@ -166,13 +169,7 @@ public class BillService implements IBillService {
             notification.setCreateAt(LocalDateTime.now());
             notification.setShop(bill.getShop());
             notification.setAccount(bill.getAccount());
-            notificationRepository.save(notification) ;
-           List<BillDetail> billDetails = billDetailRepository.listBillDetailByBill(idBill);
-           for (BillDetail billDetail : billDetails) {
-               billDetail.getProduct().setCount(billDetail.getQuantity());
-               productRepository.save(billDetail.getProduct());
-           }
-
+            notificationRepository.save(notification);
         }
     }
 

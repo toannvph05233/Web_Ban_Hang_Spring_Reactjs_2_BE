@@ -1,19 +1,25 @@
 package com.example.tmdt.security.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 
+
     @Entity
+    @Data
     public class Account {
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_generator")
-        @SequenceGenerator(name = "account_generator", sequenceName = "dbo.account_id_seq", allocationSize = 1)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String username;
         private String password;
         private String status = "active";
         private String email ;
+        private LocalDate date = LocalDate.now();
 
         public String getEmail() {
             return email;

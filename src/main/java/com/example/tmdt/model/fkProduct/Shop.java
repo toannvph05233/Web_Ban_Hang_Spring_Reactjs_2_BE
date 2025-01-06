@@ -11,13 +11,17 @@ import javax.persistence.*;
 public class Shop  {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "nvarchar(255)")
     private String name;
+    @Column(columnDefinition = "nvarchar(255)")
     private String avatar;
+    @Column(columnDefinition = "nvarchar(255)")
     private String phone;
     @ManyToOne
     private Account account ;
+    @Column(columnDefinition = "nvarchar(255)")
     private String address ;
     @ManyToOne
     private Wards wards;

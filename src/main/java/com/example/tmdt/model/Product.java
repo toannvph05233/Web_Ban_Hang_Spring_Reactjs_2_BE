@@ -11,17 +11,16 @@ import java.util.List;
 @Table(name = "Product")
 @EqualsAndHashCode(callSuper = false)
 public class Product {
-
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
-    @SequenceGenerator(name = "product_generator", sequenceName = "dbo.product_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "nvarchar(255)")
     private String name;
     @Column(nullable = false)
     @Min(value = 0)
     private Integer quantity;
+    @Column(columnDefinition = "nvarchar(255)")
     private String description;
     @Column(nullable = false)
     @Min(value = 1)

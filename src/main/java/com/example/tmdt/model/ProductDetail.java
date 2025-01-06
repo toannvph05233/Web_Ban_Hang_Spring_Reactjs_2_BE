@@ -14,8 +14,7 @@ import javax.validation.constraints.Min;
 public class ProductDetail {
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_detail_generator")
-    @SequenceGenerator(name = "product_detail_generator", sequenceName = "dbo.product_detail_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     @Min(value = 0)

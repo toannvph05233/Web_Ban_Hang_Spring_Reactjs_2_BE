@@ -1,5 +1,7 @@
 package com.example.tmdt.dto;
 
+import com.example.tmdt.model.Comment;
+import com.example.tmdt.model.ProductDetail;
 import com.example.tmdt.model.fkProduct.*;
 import com.example.tmdt.security.model.Account;
 import lombok.AllArgsConstructor;
@@ -20,11 +22,12 @@ public class ProductDTO {
     private Double promotion;
     private Integer count;
     private Integer status;
-//    private List<Comment> comment;
+    private List<CommentDTO> comment;
     private Brand brand;
     private Shop shop;
     private OptionProduct option;
     private Category category;
     private List<ImageDTO> image;
+    private List<ProductDetail> productDetails;
     private Account account;
 }
